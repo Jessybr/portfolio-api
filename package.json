@@ -1,0 +1,24 @@
+{
+  "name": "portfolio-api",
+  "version": "1.0.0",
+  "description": "API Rest desenvolvida em Node.js e SQLite para gerenciamento de projetos, habilidades e informações do meu Portfolio",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Jessybr/portfolio-api.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/Jessybr/portfolio-api/issues"
+  },
+  "homepage": "https://github.com/Jessybr/portfolio-api#readme",
+  "dependencies": {
+    "express": "^5.2.1"
+  }
+}
