@@ -1,5 +1,8 @@
-import express from 'express'
+import 'dotenv/config'
+import app from './app.js'
 
-const app = express()
+const PORT = process.env.PORT || 3000
 
-app.get('/produtos')
+app.listen(PORT, () => {
+    console.log(`Servidor rodando na porta ${PORT}`)
+})
