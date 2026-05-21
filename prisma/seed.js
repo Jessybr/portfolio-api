@@ -36,14 +36,29 @@ async function main() {
    )
 
    // criar usuário
-   const user = await prisma.user.create({
-      data: {
-         username: usuario,
-         password: hashedPassword
-      }
-   })
+async function createPerfil() {
+    const existingPerfil = await prisma.perfil.findUnique({
+        where: {
+            id: 1
+        }
+    })
 
-   console.log(user)
+    if(existingPerfil) {
+        console.log('O perfil já foi criado, basta edita-lo agora')
+        return
+    }
+
+    await prisma.perfil.create({
+        data: {
+            nome_completo: "Nome aqui",
+            email: "email@exemplo.com",
+            celular: "11999999999",
+            linkedin_url: "https://www.linkedin.com/in/seu-perfil",
+            github_url: "https://github.com/seu-usuario",
+            curriculo_src: "https://link-para-seu-curriculo.com/curriculo.pdf",
+            foto_src: "https://link-para-sua-foto.com/foto.jpg"
+        }
+    })
 }
 
 main()
