@@ -16,3 +16,14 @@ model User {
   username String @unique
   password String
 }
+
+model Perfil {
+    id            Int    @id @default(autoincrement())
+    nome_completo String
+    email         String
+    celular       String
+    linkedin_url  String
+    github_url    String
+    curriculo_src String
+    foto_src      String
+}
