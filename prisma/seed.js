@@ -9,18 +9,22 @@ const adapter = new PrismaBetterSqlite3({
 
 const prisma = new PrismaClient({ adapter })
 
-const usuario = process.env.MEU_USUARIO
+const user = process.env.MEU_USUARIO
 const senha = process.env.SENHA_CRIPTOGRAFADA
 
 async function main() {
+    await createUser()
+    await createPerfil()
+}
 
-    if(!usuario || !senha) {
+async function createUser() {
+    if(!user || !senha) {
         throw new Error("Variáveis de ambiente MEU_USUARIO e SENHA_CRIPTOGRAFADA precisam ser definidas no .env")
     }
 
     const existingUser = await prisma.user.findUnique({
     where: {
-        username: usuario
+        username: user
     }
     })
 
@@ -30,12 +34,20 @@ async function main() {
     }
 
    // criptografar senha
-   const hashedPassword = await bcrypt.hash(
+    const hashedPassword = await bcrypt.hash(
       senha,
       10
    )
 
    // criar usuário
+    const user = await prisma.user.create({
+        data: {
+            username: user,
+            password: hashedPassword
+        }
+    })
+}
+
 async function createPerfil() {
     const existingPerfil = await prisma.perfil.findUnique({
         where: {
