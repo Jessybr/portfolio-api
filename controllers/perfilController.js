@@ -1,7 +1,7 @@
 import perfilService from '../services/perfilService.js'
 
 async function getPerfil(req, res) {
-    try{
+    try {
         const result = await perfilService.getPerfil()
 
         return res.json(result)
