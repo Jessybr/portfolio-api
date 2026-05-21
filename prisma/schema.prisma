@@ -27,3 +27,14 @@ model Perfil {
     curriculo_src String
     foto_src      String
 }
+
+model Project {
+    id         Int     @id @default(autoincrement())
+    nome       String
+    descricao  String
+    ativo      Boolean @default(true)
+    video_src  String
+    imagem_src String
+    deploy_url String
+    github_url String
+}
