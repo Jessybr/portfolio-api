@@ -62,4 +62,19 @@ async function deleteProjectById(id) {
     return { result }
 }
 
-export default { createProject, updateProjectById, getProjectById, getProjects, deleteProjectById }
+async function toggleActiveProject(id) {
+    const projectExist = await prisma.project.findUniqueOrThrow({
+        where: { id }
+    })
+
+    const result = await prisma.project.update({
+        where: { id },
+        data: {
+            ativo: !projectExist.ativo
+        }
+    })
+
+    return { result }
+}
+
+export default { createProject, updateProjectById, getProjectById, getProjects, deleteProjectById, toggleActiveProject }

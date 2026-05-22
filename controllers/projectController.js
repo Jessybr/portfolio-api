@@ -55,4 +55,15 @@ async function deleteProjectById(req, res) {
     }
 }
 
-export default { createProject, updateProjectById, getProjectById, getProjects, deleteProjectById }
+async function toggleActiveProject(req, res) {
+    try {
+        const id = req.params.id
+        const result = await projectService.toggleActiveProject(parseInt(id))
+
+        return res.json(result)
+    } catch (error) {
+        return res.status(401).json({error: error.message})
+    }
+}
+
+export default { createProject, updateProjectById, getProjectById, getProjects, deleteProjectById, toggleActiveProject }
