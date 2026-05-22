@@ -11,4 +11,16 @@ async function createProject(req, res) {
     }
 }
 
-export default { createProject }
+async function updateProjectById(req, res) {
+    try {
+        const id = req.params.id
+        const data = req.body
+        const result = await projectService.updateProjectById(parseInt(id), data)
+
+        return res.json(result)
+    } catch (error) {
+        return res.status(401).json({error: error.message})
+    }
+}
+
+export default { createProject, updateProjectById }
