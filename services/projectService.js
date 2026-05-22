@@ -25,4 +25,26 @@ async function updateProjectById(id, data) {
     return { updatedProject }
 }
 
-export default { createProject, updateProjectById }
+async function getProjectById(id) {
+    const project = await prisma.project.findUnique({
+        where: { id }
+    })
+
+    if(!project) {
+        throw new Error(`Projeto com o id: ${id} não encontrado`)
+    }
+
+    return { project }
+}
+
+async function getProjects(id) {
+    const projects = await prisma.project.findMany()
+
+    if(!projects) {
+        throw new Error(`Não há projetos no banco de dados`)
+    }
+
+    return { projects }
+}
+
+export default { createProject, updateProjectById, getProjectById, getProjects }
