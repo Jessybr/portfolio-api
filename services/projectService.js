@@ -47,4 +47,19 @@ async function getProjects(id) {
     return { projects }
 }
 
-export default { createProject, updateProjectById, getProjectById, getProjects }
+async function deleteProjectById(id) {
+    const projectExist = await prisma.project.findUniqueOrThrow({
+        where: { id },
+        select: {
+            nome: true
+        }
+    })
+
+    const result = await prisma.project.delete({
+        where: { id }
+    })
+
+    return { result }
+}
+
+export default { createProject, updateProjectById, getProjectById, getProjects, deleteProjectById }
