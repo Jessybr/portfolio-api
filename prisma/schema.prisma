@@ -18,23 +18,61 @@ model User {
 }
 
 model Perfil {
-    id            Int    @id @default(autoincrement())
-    nome_completo String
-    email         String
-    celular       String
-    linkedin_url  String
-    github_url    String
-    curriculo_src String
-    foto_src      String
+    id           Int    @id @default(autoincrement())
+    nomeCompleto String? 
+    email        String 
+    celular      String 
+    linkedinUrl  String?
+    githubUrl    String?
+    curriculoSrc String?
+    fotoSrc      String?
 }
 
 model Project {
-    id         Int     @id @default(autoincrement())
-    nome       String
-    descricao  String
-    ativo      Boolean @default(true)
-    video_src  String
-    imagem_src String
-    deploy_url String
-    github_url String
+    id          Int     @id @default(autoincrement())
+    nome        String
+    descricao   String
+    ativo       Boolean @default(true)
+    videoSrc    String? 
+    imagemSrc   String? 
+    deployUrl   String? 
+    githubUrl   String? 
+
+    tecnologias Technology_Project[]
+    categorias  Category_Project[]
+}
+
+model Technology {
+    id       Int    @id @default(autoincrement())
+    nome     String 
+    iconeSrc String 
+
+    projetos Technology_Project[]
+}
+
+model Category {
+    id       Int    @id @default(autoincrement())
+    nome     String 
+
+    projetos Category_Project[]
+}
+
+model Technology_Project {
+    tecnologia_id Int
+    projeto_id    Int
+
+    tecnologia    Technology @relation(fields: [tecnologia_id], references: [id])
+    projeto       Project    @relation(fields: [projeto_id], references: [id])
+
+    @@id([tecnologia_id, projeto_id])
+}
+
+model Category_Project {
+    categoria_id Int
+    projeto_id   Int
+
+    categoria    Category @relation(fields: [categoria_id], references: [id])
+    projeto      Project  @relation(fields: [projeto_id], references: [id])
+
+    @@id([categoria_id, projeto_id])
 }
