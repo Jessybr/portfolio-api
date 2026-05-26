@@ -24,6 +24,14 @@ async function getTechnologyByName(name) {
     return { technology }
 }
 
+async function createTechnology(data) {
+    paramsTechnologyHelper.checkBodyNeededToCreateTechnology(data)
+    paramsTechnologyHelper.checkBodyInexistent(data)
+
+    const technology = await prisma.technology.create({
+        data
+    })
+
     return { technology }
 }
 
