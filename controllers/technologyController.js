@@ -26,8 +26,14 @@ async function createTechnology(req, res) {
     }
 }
 
+async function deleteTechnology(req, res) {
+    try {
+        const id = req.params.id
+        const result = await technologyService.deleteTechnology(parseInt(id))
+
+        return responseHttp.noContent(res, "Tecnologia deletada com sucesso")
     } catch(error) {
-        return res.status(401).json({error: error.message})
+        return responseHttp.externalError(res, error.message, error.statusCode)
     }
 }
 

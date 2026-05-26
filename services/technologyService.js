@@ -27,4 +27,18 @@ async function getTechnologyByName(name) {
     return { technology }
 }
 
-export default { getTecnologies, getTecnologyById }
+async function deleteTechnology(id) {
+    const existingTechnology = await prisma.technology.findUnique({
+        where: { id }
+    })
+
+    if (!existingTechnology) {
+        throw new HttpError("Tecnologia não encontrada", 404)
+    }
+
+    const result = await prisma.technology.delete({
+        where: { id }
+    })
+
+    return { result }
+}
