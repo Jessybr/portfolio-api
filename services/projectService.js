@@ -1,6 +1,11 @@
 import prisma from "../lib/prisma.js"
+import checkersParams from "../utils/paramsProjectHelper.js"
+import { HttpError } from "../utils/error/HttpError.js"
 
 async function createProject(data) {
+    checkersParams.checkParamsNeeded(data)
+    checkersParams.checkParamsInexist(data)
+
     const newProject = await prisma.project.create({
         data
     })
@@ -9,12 +14,14 @@ async function createProject(data) {
 }
 
 async function updateProjectById(id, data) {
+    checkersParams.checkParamsInexist(data)
+
     const project = await prisma.project.findUnique({
         where: { id }
     })
 
     if(!project) {
-        throw new Error(`Projeto com o id: ${id} não encontrado`)
+        throw new HttpError(`Projeto com o id: ${id} não encontrado`, 404)
     }
 
     const updatedProject = await prisma.project.update({
@@ -31,7 +38,7 @@ async function getProjectById(id) {
     })
 
     if(!project) {
-        throw new Error(`Projeto com o id: ${id} não encontrado`)
+        throw new HttpError(`Projeto com o id: ${id} não encontrado`, 404)
     }
 
     return { project }
@@ -41,19 +48,20 @@ async function getProjects(id) {
     const projects = await prisma.project.findMany()
 
     if(!projects) {
-        throw new Error(`Não há projetos no banco de dados`)
+        throw new HttpError(`Não há projetos no banco de dados`, 404)
     }
 
     return { projects }
 }
 
 async function deleteProjectById(id) {
-    const projectExist = await prisma.project.findUniqueOrThrow({
-        where: { id },
-        select: {
-            nome: true
-        }
+    const projectExist = await prisma.project.findUnique({
+        where: { id }
     })
+
+    if(!projectExist) {
+        throw new HttpError(`Projeto com o id: ${id} não encontrado`, 404)
+    }
 
     const result = await prisma.project.delete({
         where: { id }
@@ -63,9 +71,13 @@ async function deleteProjectById(id) {
 }
 
 async function toggleActiveProject(id) {
-    const projectExist = await prisma.project.findUniqueOrThrow({
+    const projectExist = await prisma.project.findUnique({
         where: { id }
     })
+
+    if(!projectExist) {
+        throw new HttpError(`Projeto com o id: ${id} não encontrado`, 404)
+    }
 
     const result = await prisma.project.update({
         where: { id },
