@@ -3,8 +3,8 @@ import { HttpError } from './error/HttpError.js'
 function checkParamsNeeded(body) {
     const paramsNeeded = ['nome', 'descricao']
 
-    for(const param in paramsNeeded) {
-        if(!body[param]) {
+    for (const param of paramsNeeded) {
+        if (!body[param]) {
             throw new HttpError("O nome e a descrição são obrigatórios", 422)
         }
     }
