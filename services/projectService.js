@@ -89,4 +89,14 @@ async function toggleActiveProject(id) {
     return { result }
 }
 
-export default { createProject, updateProjectById, getProjectById, getProjects, deleteProjectById, toggleActiveProject }
+async function getActiveProjects() {
+    const projects = await prisma.project.findMany({
+        where: {
+            ativo: true
+        }
+    })
+
+    return { projects }
+}
+
+export default { createProject, updateProjectById, getProjectById, getProjects, deleteProjectById, toggleActiveProject, getActiveProjects }

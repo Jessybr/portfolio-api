@@ -67,4 +67,14 @@ async function toggleActiveProject(req, res) {
     }
 }
 
-export default { createProject, updateProjectById, getProjectById, getProjects, deleteProjectById, toggleActiveProject }
+async function getActiveProjects(req, res) {
+    try {
+        const result = await projectService.getActiveProjects()
+
+        return responseHTTP.ok(res, null, result)
+    } catch (error) {
+        return responseHTTP.externalError(res, error.message, error.statusCode)
+    }
+}
+
+export default { createProject, updateProjectById, getProjectById, getProjects, deleteProjectById, toggleActiveProject, getActiveProjects }
