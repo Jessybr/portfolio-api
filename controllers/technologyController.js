@@ -1,12 +1,13 @@
 import technologyService from '../services/technologyService.js';
+import responseHttp from '../utils/response/httpResponse.js'
 
 async function getTecnologies(req, res) {
     try {
         const technologies = await technologyService.getTecnologies()
 
-        return res.json(technologies)
+        return responseHttp.ok(res, null, technologies)
     } catch(error) {
-        return res.status(401).json({error: error.message})
+        return responseHttp.externalError(res, error.message, error.statusCode)
     }
 }
 
@@ -15,6 +16,11 @@ async function getTecnologyById(req, res) {
         const id = req.params.id
         const technology = await technologyService.getTecnologyById(parseInt(id))
 
+        return responseHttp.ok(res, null, technology)
+    } catch(error) {
+        return responseHttp.externalError(res, error.message, error.statusCode)
+    }
+}
 
 async function getTechnologyByName(req, res) {
     try {
@@ -48,4 +54,4 @@ async function deleteTechnology(req, res) {
     }
 }
 
-export default { getTecnologies, getTecnologyById }
+export default { getTecnologies, getTecnologyById, getTechnologyByName, createTechnology, deleteTechnology }
