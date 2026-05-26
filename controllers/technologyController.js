@@ -15,7 +15,17 @@ async function getTecnologyById(req, res) {
         const id = req.params.id
         const technology = await technologyService.getTecnologyById(parseInt(id))
 
-        return res.json(technology)
+async function createTechnology(req, res) {
+    try {
+        const data = req.body
+        const technology = await technologyService.createTechnology(data)
+
+        return responseHttp.created(res, null, technology)
+    } catch(error) {
+        return responseHttp.externalError(res, error.message, error.statusCode)
+    }
+}
+
     } catch(error) {
         return res.status(401).json({error: error.message})
     }
