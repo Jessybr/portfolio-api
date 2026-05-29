@@ -1,6 +1,8 @@
 import prisma from "../lib/prisma.js"
 import checkersParams from "../utils/paramsProjectHelper.js"
 import { HttpError } from "../utils/error/HttpError.js"
+import technologyService from "./technologyService.js"
+import categoryService from "./categoryService.js"
 
 async function createProject(data) {
     const {
@@ -73,7 +75,19 @@ async function updateProjectById(id, data) {
 
 async function getProjectById(id) {
     const project = await prisma.project.findUnique({
-        where: { id }
+        where: { id },
+        include: {
+            tecnologias: {
+                include: {
+                    tecnologia: true
+                }
+            },
+            categorias: {
+                include: {
+                    categoria: true
+                }
+            }
+        }
     })
 
     if(!project) {
@@ -84,7 +98,20 @@ async function getProjectById(id) {
 }
 
 async function getProjects(id) {
-    const projects = await prisma.project.findMany()
+    const projects = await prisma.project.findMany({
+        include: {
+            tecnologias: {
+                include: {
+                    tecnologia: true
+                }
+            },
+            categorias: {
+                include: {
+                    categoria: true
+                }
+            }
+        }
+    })
 
     if(!projects) {
         throw new HttpError(`Não há projetos no banco de dados`, 404)
