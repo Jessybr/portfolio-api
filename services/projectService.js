@@ -57,13 +57,7 @@ async function createProject(data) {
 async function updateProjectById(id, data) {
     checkersParams.checkParamsInexist(data)
 
-    const project = await prisma.project.findUnique({
-        where: { id }
-    })
-
-    if(!project) {
-        throw new HttpError(`Projeto com o id: ${id} não encontrado`, 404)
-    }
+    await checkProjectExistsById(id)
 
     const updatedProject = await prisma.project.update({
         where: { id },
@@ -121,13 +115,7 @@ async function getProjects(id) {
 }
 
 async function deleteProjectById(id) {
-    const projectExist = await prisma.project.findUnique({
-        where: { id }
-    })
-
-    if(!projectExist) {
-        throw new HttpError(`Projeto com o id: ${id} não encontrado`, 404)
-    }
+    await checkProjectExistsById(id)
 
     const result = await prisma.project.delete({
         where: { id }
@@ -137,13 +125,7 @@ async function deleteProjectById(id) {
 }
 
 async function toggleActiveProject(id) {
-    const projectExist = await prisma.project.findUnique({
-        where: { id }
-    })
-
-    if(!projectExist) {
-        throw new HttpError(`Projeto com o id: ${id} não encontrado`, 404)
-    }
+    await checkProjectExistsById(id)
 
     const result = await prisma.project.update({
         where: { id },
@@ -163,6 +145,16 @@ async function getActiveProjects() {
     })
 
     return { projects }
+}
+
+async function checkProjectExistsById(id) {
+    const project = await prisma.project.findUnique({
+        where: { id }
+    })
+
+    if(!project) {
+        throw new HttpError(`Projeto com o id: ${id} não encontrado`, 404)
+    }
 }
 
 export default { createProject, updateProjectById, getProjectById, getProjects, deleteProjectById, toggleActiveProject, getActiveProjects }
