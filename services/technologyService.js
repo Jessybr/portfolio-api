@@ -44,13 +44,7 @@ async function createTechnology(data) {
 }
 
 async function deleteTechnology(id) {
-    const existingTechnology = await prisma.technology.findUnique({
-        where: { id }
-    })
-
-    if (!existingTechnology) {
-        throw new HttpError("Tecnologia não encontrada", 404)
-    }
+    await checkTechnologyExistsById(id)
 
     const result = await prisma.technology.delete({
         where: { id }
@@ -73,6 +67,16 @@ async function ensureTechnologiesExist(ids) {
     }
 
     return technologies
+}
+
+async function checkTechnologyExistsById(id) {
+    const technology = await prisma.technology.findUnique({
+         where: { id }
+    })
+
+    if(!technology) {
+        throw new HttpError("Tecnologia não encontrada", 404)
+    }
 }
 
 export default { getTecnologies, getTecnologyById, getTechnologyByName, createTechnology, deleteTechnology, ensureTechnologiesExist }
