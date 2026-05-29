@@ -13,4 +13,15 @@ async function createSoftSkill(req, res) {
     }
 }
 
-export default { createSoftSkill }
+async function getSoftSkills(req, res) {
+    try {
+        const result = await softSkillService.getSoftSkills()
+
+        return responseHTTP.ok(res, null, result)
+    } catch (error) {
+        console.error(error) //retirar depois
+        return responseHTTP.externalError(res, error.message, error.statusCode)
+    }
+}
+
+export default { createSoftSkill, getSoftSkills }

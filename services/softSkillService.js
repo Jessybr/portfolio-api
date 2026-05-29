@@ -25,4 +25,10 @@ async function createSoftSkill(data) {
     return { softSkill }
 }
 
-export default { createSoftSkill }
+async function getSoftSkills() {
+    const softSkills = await prisma.softSkill.findMany()
+
+    return { softSkills }
+}
+
+export default { createSoftSkill, getSoftSkills }
