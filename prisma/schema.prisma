@@ -76,3 +76,9 @@ model Category_Project {
 
     @@id([categoria_id, projeto_id])
 }
+
+model SoftSkill {
+    id       Int    @id @default(autoincrement())
+    nome     String
+    iconeSrc String?
+}
