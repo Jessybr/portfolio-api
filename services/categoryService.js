@@ -40,13 +40,7 @@ async function createCategory(data) {
 }
 
 async function deleteCategory(id) {
-    const category = await prisma.category.findUnique({
-        where: { id }
-    })
-
-    if(!category) {
-        throw new HttpError(`Categoria com o id: ${id} não encontrada`, 404)
-    }
+    await checkCategoryExistsById(id)
 
     await prisma.category.delete({
         where: { id }
@@ -67,6 +61,16 @@ async function ensureCategoriesExist(ids) {
     }
 
     return categories
+}
+
+async function checkCategoryExistsById(id) {
+    const category = await prisma.category.findUnique({
+        where: { id }
+    })
+
+    if (!category) {
+        throw new HttpError(`Categoria com o id: ${id} não encontrada`, 404)
+    }
 }
 
 export default { getCategories, getCategoryById, createCategory, deleteCategory, ensureCategoriesExist }
