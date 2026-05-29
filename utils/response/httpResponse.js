@@ -25,10 +25,12 @@ function ok(res, message = null, data = null) {
 }
 
 function externalError(res, message = null, statusCode = 500) {
+    const safeMessage = statusCode >= 500 ? "Erro interno no servidor" : message
+
     return res.status(statusCode).json({
         status: statusCode,
         success: false,
-        message
+        message: safeMessage
     })
 }
 
