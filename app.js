@@ -4,6 +4,7 @@ import perfilRoutes from './routes/perfil.routes.js'
 import projectRoutes from './routes/project.routes.js'
 import technologyRoutes from './routes/technology.routes.js'
 import categoryRoutes from './routes/category.routes.js'
+import softSkillRoutes from './routes/softSkill.routes.js'
 
 const app = express()
 app.use(express.json())
@@ -12,5 +13,6 @@ app.use(perfilRoutes)
 app.use(projectRoutes)
 app.use(technologyRoutes)
 app.use(categoryRoutes)
+app.use(softSkillRoutes)
 
 export default app
