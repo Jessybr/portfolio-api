@@ -3,11 +3,50 @@ import checkersParams from "../utils/paramsProjectHelper.js"
 import { HttpError } from "../utils/error/HttpError.js"
 
 async function createProject(data) {
-    checkersParams.checkParamsNeeded(data)
-    checkersParams.checkParamsInexist(data)
+    const {
+        tecnologias = [],
+        categorias = [],
+        ...projectData
+    } = data
+
+    checkersParams.checkParamsNeeded(projectData)
+    checkersParams.checkParamsInexist(projectData)
+
+    await technologyService.ensureTechnologiesExist(tecnologias)
+    await categoryService.ensureCategoriesExist(categorias)
 
     const newProject = await prisma.project.create({
-        data
+        data: {
+            ...projectData,
+
+            tecnologias: {
+                create: tecnologias.map((tecnologiaId) => ({
+                    tecnologia: {
+                        connect: { id: tecnologiaId }
+                    }
+                }))
+            },
+
+            categorias: {
+                create: categorias.map((categoriaId) => ({
+                    categoria: {
+                        connect: { id: categoriaId }
+                    }
+                }))
+            }
+        },
+        include: {
+            tecnologias: {
+                include: {
+                    tecnologia: true
+                }
+            },
+            categorias: {
+                include: {
+                    categoria: true
+                }
+            }
+        }
     })
 
     return { newProject }
