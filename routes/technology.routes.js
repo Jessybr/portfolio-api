@@ -6,8 +6,8 @@ const router = express.Router()
 
 router.get('/technology', authMiddleware, technologyController.getTecnologies)
 router.get('/technology/search', authMiddleware, technologyController.getTechnologyByName)
-router.get('/technology/:id', authMiddleware, technologyController.getTecnologyById)
 router.post('/technology', authMiddleware, technologyController.createTechnology)
+router.get('/technology/:id', authMiddleware, technologyController.getTecnologyById)
 router.delete('/technology/:id', authMiddleware, technologyController.deleteTechnology)
 
 export default router
