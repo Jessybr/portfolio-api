@@ -24,4 +24,16 @@ async function getSoftSkills(req, res) {
     }
 }
 
-export default { createSoftSkill, getSoftSkills }
+async function getSoftSkillById(req, res) {
+    try {
+        const { id } = req.params
+        const result = await softSkillService.getSoftSkillById(parseInt(id))
+
+        return responseHTTP.ok(res, null, result)
+    } catch (error) {
+        console.error(error) //retirar depois
+        return responseHTTP.externalError(res, error.message, error.statusCode)
+    }
+}
+
+export default { createSoftSkill, getSoftSkills, getSoftSkillById }
