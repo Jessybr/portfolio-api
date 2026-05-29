@@ -7,7 +7,7 @@ async function getTecnologies(req, res) {
 
         return responseHttp.ok(res, null, technologies)
     } catch(error) {
-        return responseHttp.externalError(res, error.message, error.statusCode)
+        return responseHttp.internalError(res, error.message, error.statusCode)
     }
 }
 
@@ -18,7 +18,7 @@ async function getTecnologyById(req, res) {
 
         return responseHttp.ok(res, null, technology)
     } catch(error) {
-        return responseHttp.externalError(res, error.message, error.statusCode)
+        return responseHttp.internalError(res, error.message, error.statusCode)
     }
 }
 
@@ -28,7 +28,7 @@ async function getTechnologyByName(req, res) {
         const technology = await technologyService.getTechnologyByName(name)
         return responseHttp.ok(res, null, technology)
     } catch(error) {
-        return responseHttp.externalError(res, error.message, error.statusCode)
+        return responseHttp.internalError(res, error.message, error.statusCode)
     }
 }
 
@@ -39,7 +39,7 @@ async function createTechnology(req, res) {
 
         return responseHttp.created(res, null, technology)
     } catch(error) {
-        return responseHttp.externalError(res, error.message, error.statusCode)
+        return responseHttp.internalError(res, error.message, error.statusCode)
     }
 }
 
@@ -50,7 +50,7 @@ async function deleteTechnology(req, res) {
 
         return responseHttp.noContent(res, "Tecnologia deletada com sucesso")
     } catch(error) {
-        return responseHttp.externalError(res, error.message, error.statusCode)
+        return responseHttp.internalError(res, error.message, error.statusCode)
     }
 }
 

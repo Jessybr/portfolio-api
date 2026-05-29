@@ -8,7 +8,7 @@ async function createProject(req, res) {
 
         return responseHTTP.created(res, "Projeto criado com sucesso!", result)
     } catch (error) {
-        return responseHTTP.externalError(res, error.message, error.statusCode)
+        return responseHTTP.internalError(res, error.message, error.statusCode)
     }
 }
 
@@ -20,7 +20,7 @@ async function updateProjectById(req, res) {
 
         return responseHTTP.ok(res, "Projeto atualizado com sucesso!", result)
     } catch (error) {
-        return responseHTTP.externalError(res, error.message, error.statusCode)
+        return responseHTTP.internalError(res, error.message, error.statusCode)
     }
 }
 
@@ -31,7 +31,7 @@ async function getProjectById(req, res) {
 
         return responseHTTP.ok(res, null, result)
     } catch (error) {
-        return responseHTTP.externalError(res, error.message, error.statusCode)
+        return responseHTTP.internalError(res, error.message, error.statusCode)
     }
 }
 
@@ -41,7 +41,7 @@ async function getProjects(req, res) {
 
         return responseHTTP.ok(res, null, result)
     } catch (error) {
-        return responseHTTP.externalError(res, error.message, error.statusCode)
+        return responseHTTP.internalError(res, error.message, error.statusCode)
     }
 }
 
@@ -52,7 +52,7 @@ async function deleteProjectById(req, res) {
 
         return responseHTTP.noContent(res, "Projeto excluído com sucesso!")
     } catch (error) {
-        return responseHTTP.externalError(res, error.message, error.statusCode)
+        return responseHTTP.internalError(res, error.message, error.statusCode)
     }
 }
 
@@ -63,7 +63,7 @@ async function toggleActiveProject(req, res) {
 
         return responseHTTP.ok(res, null, result)
     } catch (error) {
-        return responseHTTP.externalError(res, error.message, error.statusCode)
+        return responseHTTP.internalError(res, error.message, error.statusCode)
     }
 }
 
@@ -73,7 +73,7 @@ async function getActiveProjects(req, res) {
 
         return responseHTTP.ok(res, null, result)
     } catch (error) {
-        return responseHTTP.externalError(res, error.message, error.statusCode)
+        return responseHTTP.internalError(res, error.message, error.statusCode)
     }
 }
 

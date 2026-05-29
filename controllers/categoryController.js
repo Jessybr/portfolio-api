@@ -7,7 +7,7 @@ async function getCategories(req, res) {
 
         return responseHTTP.ok(res, null, categories)
     } catch (error) {
-        return responseHTTP.externalError(res, error.message, error.statusCode)
+        return responseHTTP.internalError(res, error.message, error.statusCode)
     }
 }
 
@@ -18,7 +18,7 @@ async function getCategoryById(req, res) {
 
         return responseHTTP.ok(res, null, category)
     } catch (error) {
-        return responseHTTP.externalError(res, error.message, error.statusCode)
+        return responseHTTP.internalError(res, error.message, error.statusCode)
     }
 }
 
@@ -29,7 +29,7 @@ async function createCategory(req, res) {
 
         return responseHTTP.created(res, "Categoria criada com sucesso!", newCategory)
     } catch (error) {
-        return responseHTTP.externalError(res, error.message, error.statusCode)
+        return responseHTTP.internalError(res, error.message, error.statusCode)
     }
 }
 
@@ -40,7 +40,7 @@ async function deleteCategory(req, res) {
 
         return responseHTTP.noContent(res, "Categoria deletada com sucesso!")
     } catch (error) {
-        return responseHTTP.externalError(res, error.message, error.statusCode)
+        return responseHTTP.internalError(res, error.message, error.statusCode)
     }
 }
 

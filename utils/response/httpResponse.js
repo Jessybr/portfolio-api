@@ -24,7 +24,7 @@ function ok(res, message = null, data = null) {
     })
 }
 
-function externalError(res, message = null, statusCode = 500) {
+function internalError(res, message = null, statusCode = 500) {
     const safeMessage = statusCode >= 500 ? "Erro interno no servidor" : message
 
     return res.status(statusCode).json({
@@ -34,4 +34,4 @@ function externalError(res, message = null, statusCode = 500) {
     })
 }
 
-export default { created, noContent, ok, externalError }
+export default { created, noContent, ok, internalError }
