@@ -59,4 +59,20 @@ async function deleteTechnology(id) {
     return { result }
 }
 
-export default { getTecnologies, getTecnologyById, getTechnologyByName, createTechnology, deleteTechnology }
+async function ensureTechnologiesExist(ids) {
+    const technologies = await prisma.technology.findMany({
+        where: {
+            id: {
+                in: ids
+            }
+        }
+    })
+
+    if (technologies.length !== ids.length) {
+        throw new HttpError("Uma ou mais tecnologias não existem", 422)
+    }
+
+    return technologies
+}
+
+export default { getTecnologies, getTecnologyById, getTechnologyByName, createTechnology, deleteTechnology, ensureTechnologiesExist }
