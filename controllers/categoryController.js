@@ -33,4 +33,15 @@ async function createCategory(req, res) {
     }
 }
 
-export default { getCategories, getCategoryById, createCategory }
+async function deleteCategory(req, res) {
+    try {
+        const id = req.params.id
+        await categoryService.deleteCategory(parseInt(id))
+
+        return responseHTTP.noContent(res, "Categoria deletada com sucesso!")
+    } catch (error) {
+        return responseHTTP.externalError(res, error.message, error.statusCode)
+    }
+}
+
+export default { getCategories, getCategoryById, createCategory, deleteCategory }
