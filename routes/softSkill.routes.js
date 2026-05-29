@@ -6,5 +6,6 @@ const router = express.Router()
 
 router.post('/softSkill', authMiddleware, softSkillController.createSoftSkill)
 router.get('/softSkills', authMiddleware, softSkillController.getSoftSkills)
+router.get('/softSkill/:id', authMiddleware, softSkillController.getSoftSkillById)
 
 export default router
