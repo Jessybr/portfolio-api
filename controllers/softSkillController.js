@@ -8,7 +8,6 @@ async function createSoftSkill(req, res) {
 
         return responseHTTP.created(res, "Soft skill criada com sucesso!", result)
     } catch (error) {
-        console.error(error) //retirar depois
         return responseHTTP.internalError(res, error.message, error.statusCode)
     }
 }
@@ -19,7 +18,6 @@ async function getSoftSkills(req, res) {
 
         return responseHTTP.ok(res, null, result)
     } catch (error) {
-        console.error(error) //retirar depois
         return responseHTTP.internalError(res, error.message, error.statusCode)
     }
 }
@@ -31,7 +29,6 @@ async function getSoftSkillById(req, res) {
 
         return responseHTTP.ok(res, null, result)
     } catch (error) {
-        console.error(error) //retirar depois
         return responseHTTP.internalError(res, error.message, error.statusCode)
     }
 }
@@ -43,7 +40,6 @@ async function deleteSoftSkill(req, res) {
 
         return responseHTTP.noContent(res, "Soft skill deletada com sucesso!")
     } catch (error) {
-        console.error(error) //retirar depois
         return responseHTTP.internalError(res, error.message, error.statusCode)
     }
 }
