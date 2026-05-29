@@ -36,4 +36,16 @@ async function getSoftSkillById(req, res) {
     }
 }
 
-export default { createSoftSkill, getSoftSkills, getSoftSkillById }
+async function deleteSoftSkill(req, res) {
+    try {
+        const { id } = req.params
+        await softSkillService.deleteSoftSkill(parseInt(id))
+
+        return responseHTTP.noContent(res, "Soft skill deletada com sucesso!")
+    } catch (error) {
+        console.error(error) //retirar depois
+        return responseHTTP.externalError(res, error.message, error.statusCode)
+    }
+}
+
+export default { createSoftSkill, getSoftSkills, getSoftSkillById, deleteSoftSkill }

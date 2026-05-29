@@ -45,4 +45,22 @@ async function getSoftSkillById(id) {
     return { softSkill }
 }
 
-export default { createSoftSkill, getSoftSkills, getSoftSkillById }
+async function deleteSoftSkill(id) {
+    const softSkill = await prisma.softSkill.findUnique({
+        where: {
+            id: id
+        }
+    })
+
+    if(!softSkill) {
+        throw new HttpError(`Soft skill com o id: ${id} não encontrada`, 404)
+    }
+
+    await prisma.softSkill.delete({
+        where: {
+            id: id
+        }
+    })
+}
+
+export default { createSoftSkill, getSoftSkills, getSoftSkillById, deleteSoftSkill }
