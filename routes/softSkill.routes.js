@@ -5,5 +5,6 @@ import { authMiddleware } from '../middlewares/authMiddlewares.js'
 const router = express.Router()
 
 router.post('/softSkill', authMiddleware, softSkillController.createSoftSkill)
+router.get('/softSkills', authMiddleware, softSkillController.getSoftSkills)
 
 export default router
