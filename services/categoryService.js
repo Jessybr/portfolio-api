@@ -53,4 +53,20 @@ async function deleteCategory(id) {
     })
 }
 
-export default { getCategories, getCategoryById, createCategory, deleteCategory }
+async function ensureCategoriesExist(ids) {
+    const categories = await prisma.category.findMany({
+        where: {
+            id: {
+                in: ids
+            }
+        }
+    })
+
+    if (categories.length !== ids.length) {
+        throw new HttpError("Uma ou mais categorias não existem", 422)
+    }
+
+    return categories
+}
+
+export default { getCategories, getCategoryById, createCategory, deleteCategory, ensureCategoriesExist }
