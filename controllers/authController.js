@@ -1,13 +1,14 @@
 import authService from '../services/authService.js'
+import responseHTTP from '../utils/response/httpResponse.js'
 
 async function login(req, res) {
     try{
         const { username, password } = req.body
         const result = await authService.login(username, password)
 
-        return res.json(result)
+        return responseHTTP.ok(res, null, result)
     } catch (error) {
-        return res.status(401).json({error: error.message})
+        return responseHTTP.internalError(res, error.message, error.statusCode)
     }
 }
 
