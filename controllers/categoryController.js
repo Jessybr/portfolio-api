@@ -21,3 +21,16 @@ async function getCategoryById(req, res) {
         return responseHTTP.externalError(res, error.message, error.statusCode)
     }
 }
+
+async function createCategory(req, res) {
+    try {
+        const data = req.body
+        const newCategory = await categoryService.createCategory(data)
+
+        return responseHTTP.created(res, "Categoria criada com sucesso!", newCategory)
+    } catch (error) {
+        return responseHTTP.externalError(res, error.message, error.statusCode)
+    }
+}
+
+export default { getCategories, getCategoryById, createCategory }
