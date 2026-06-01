@@ -195,6 +195,39 @@ async function addTechnologyToProject(projectId, tecnologiaId) {
     return { result }
 }
 
+async function removeTechnologyFromProject(projectId, tecnologiaId) {
+    await checkProjectExistsById(projectId)
+    await checkTechnologyExistsInProject(projectId, tecnologiaId)
+
+    const result = await prisma.project.update({
+        where: { id: projectId },
+        data: {
+            tecnologias: {
+                delete: {
+                    tecnologia_id_projeto_id: {
+                        tecnologia_id: tecnologiaId,
+                        projeto_id: projectId
+                    }
+                }
+            }
+        },
+        include: {
+            tecnologias: {
+                include: {
+                    tecnologia: true
+                }
+            },
+            categorias: {
+                include: {
+                    categoria: true
+                }
+            }
+        }
+    })
+
+    return { result }
+}
+
 async function addCategoryToProject(projectId, categoriaId) {
     await checkProjectExistsById(projectId)
     await categoryService.ensureCategoriesExist([categoriaId])
