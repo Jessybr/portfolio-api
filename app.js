@@ -5,6 +5,9 @@ import projectRoutes from './routes/project.routes.js'
 import technologyRoutes from './routes/technology.routes.js'
 import categoryRoutes from './routes/category.routes.js'
 import softSkillRoutes from './routes/softSkill.routes.js'
+import swaggerUi from 'swagger-ui-express'
+import swaggerSpec from './docs/swagger.js'
+
 
 const app = express()
 app.use(express.json())
@@ -14,5 +17,6 @@ app.use(projectRoutes)
 app.use(technologyRoutes)
 app.use(categoryRoutes)
 app.use(softSkillRoutes)
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec))
 
 export default app
