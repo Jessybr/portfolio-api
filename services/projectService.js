@@ -157,4 +157,40 @@ async function checkProjectExistsById(id) {
     }
 }
 
-export default { createProject, updateProjectById, getProjectById, getProjects, deleteProjectById, toggleActiveProject, getActiveProjects }
+async function addTechnologyToProject(projectId, tecnologiaId) {
+    await checkProjectExistsById(projectId)
+    await technologyService.ensureTechnologiesExist([tecnologiaId])
+
+    const technologyExistsInProject = await checkTechnologyExistsInProject(projectId, tecnologiaId)
+
+    if (technologyExistsInProject) {
+        throw new HttpError("Tecnologia já existe no projeto", 400)
+    }
+
+    const result = await prisma.project.update({
+        where: { id: projectId },
+        data: {
+            tecnologias: {
+                create: {
+                    tecnologia: {
+                        connect: { id: tecnologiaId }
+                    }
+                }
+            }
+        },
+        include: {
+            tecnologias: {
+                include: {
+                    tecnologia: true
+                }
+            },
+            categorias: {
+                include: {
+                    categoria: true
+                }
+            }
+        }
+    })
+
+    return { result }
+}
