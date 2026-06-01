@@ -265,3 +265,72 @@ async function addCategoryToProject(projectId, categoriaId) {
 
     return { result }
 }
+
+async function removeCategoryFromProject(projectId, categoriaId) {
+    await checkProjectExistsById(projectId)
+    await checkCategoryExistsInProject(projectId, categoriaId)
+
+    const result = await prisma.project.update({
+        where: { id: projectId },
+        data: {
+            categorias: {
+                delete: {
+                    categoria_id_projeto_id: {
+                        categoria_id: categoriaId,
+                        projeto_id: projectId
+                    }
+                }
+            }
+        },
+        include: {
+            tecnologias: {
+                include: {
+                    tecnologia: true
+                }
+            },
+            categorias: {
+                include: {
+                    categoria: true
+                }
+            }
+        }
+    })
+
+    return { result }
+}
+
+async function checkTechnologyExistsInProject(projectId, tecnologiaId) {
+    const projectTechnology = await prisma.technology_Project.findUnique({
+        where: {
+            tecnologia_id_projeto_id: {
+                tecnologia_id: tecnologiaId,
+                projeto_id: projectId
+            }
+        }
+    })
+
+    if (!projectTechnology) {
+        throw new HttpError("Tecnologia não encontrada no projeto", 404)
+    }
+
+    return true
+}
+
+async function checkCategoryExistsInProject(projectId, categoriaId) {
+    const projectCategory = await prisma.category_Project.findUnique({
+        where: {
+            categoria_id_projeto_id: {
+                categoria_id: categoriaId,
+                projeto_id: projectId
+            }
+        }
+    })
+
+    if (!projectCategory) {
+        throw new HttpError("Categoria não encontrada no projeto", 404)
+    }
+
+    return true
+}
+
+export default { createProject, updateProjectById, getProjectById, getProjects, deleteProjectById, toggleActiveProject, getActiveProjects, addTechnologyToProject, removeTechnologyFromProject, addCategoryToProject, removeCategoryFromProject }
