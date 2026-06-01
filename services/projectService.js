@@ -194,3 +194,41 @@ async function addTechnologyToProject(projectId, tecnologiaId) {
 
     return { result }
 }
+
+async function addCategoryToProject(projectId, categoriaId) {
+    await checkProjectExistsById(projectId)
+    await categoryService.ensureCategoriesExist([categoriaId])
+
+    const categoryExistsInProject = await checkCategoryExistsInProject(projectId, categoriaId)
+
+    if (categoryExistsInProject) {
+        throw new HttpError("Categoria já existe no projeto", 400)
+    }
+
+    const result = await prisma.project.update({
+        where: { id: projectId },
+        data: {
+            categorias: {
+                create: {
+                    categoria: {
+                        connect: { id: categoriaId }
+                    }
+                }
+            }
+        },
+        include: {
+            tecnologias: {
+                include: {
+                    tecnologia: true
+                }
+            },
+            categorias: {
+                include: {
+                    categoria: true
+                }
+            }
+        }
+    })
+
+    return { result }
+}
