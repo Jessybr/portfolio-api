@@ -77,4 +77,15 @@ async function getActiveProjects(req, res) {
     }
 }
 
-export default { createProject, updateProjectById, getProjectById, getProjects, deleteProjectById, toggleActiveProject, getActiveProjects }
+async function addTechnologyToProject(req, res) {
+    try {
+        const id = req.params.id
+        const technologyId = req.body.tecnologia_id
+        const result = await projectService.addTechnologyToProject(parseInt(id), parseInt(technologyId))
+
+        return responseHTTP.ok(res, "Tecnologia adicionada ao projeto com sucesso!", result)
+    } catch (error) {
+        console.log(error)
+        return responseHTTP.internalError(res, error.message, error.statusCode)
+    }
+}
