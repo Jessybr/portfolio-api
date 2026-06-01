@@ -89,3 +89,17 @@ async function addTechnologyToProject(req, res) {
         return responseHTTP.internalError(res, error.message, error.statusCode)
     }
 }
+
+async function removeTechnologyFromProject(req, res) {
+    try {
+        const id = req.params.id
+        const technologyId = req.body.tecnologia_id
+        const result = await projectService.removeTechnologyFromProject(parseInt(id), parseInt(technologyId))
+
+        return responseHTTP.ok(res, "Tecnologia removida do projeto com sucesso!", result)
+    } catch (error) {
+        console.log(error)
+        return responseHTTP.internalError(res, error.message, error.statusCode)
+    }
+}
+
