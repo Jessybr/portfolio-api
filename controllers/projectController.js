@@ -103,3 +103,16 @@ async function removeTechnologyFromProject(req, res) {
     }
 }
 
+async function addCategoryToProject(req, res) {
+    try {
+        const id = req.params.id
+        const categoryId = req.body.categoria_id
+        const result = await projectService.addCategoryToProject(parseInt(id), parseInt(categoryId))
+
+        return responseHTTP.ok(res, "Categoria adicionada ao projeto com sucesso!", result)
+    } catch (error) {
+        console.log(error)
+        return responseHTTP.internalError(res, error.message, error.statusCode)
+    }
+}
+
