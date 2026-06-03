@@ -1,6 +1,6 @@
 import prisma from "../lib/prisma.js"
 import checkersParams from "../utils/paramsProjectHelper.js"
-import { HttpError } from "../utils/error/HttpError.js"
+import { HttpError } from "../utils/error/httpError.js"
 import technologyService from "./technologyService.js"
 import categoryService from "./categoryService.js"
 

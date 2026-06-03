@@ -1,4 +1,4 @@
-import { HttpError } from './error/HttpError.js'
+import { HttpError } from './error/httpError.js'
 
 function checkBodyNeededToCreateTechnology(body) {
     const paramsNeeded = ['nome', 'iconeSrc']

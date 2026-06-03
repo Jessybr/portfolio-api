@@ -1,5 +1,5 @@
 import prisma from '../lib/prisma.js'
-import { HttpError } from '../utils/error/HttpError.js'
+import { HttpError } from '../utils/error/httpError.js'
 
 async function getCategories() {
     const categories = await prisma.category.findMany()

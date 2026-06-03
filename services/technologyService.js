@@ -1,6 +1,6 @@
 import prisma from '../lib/prisma.js'
 import paramsTechnologyHelper from '../utils/paramsTechnologyHelper.js'
-import { HttpError } from '../utils/error/HttpError.js'
+import { HttpError } from '../utils/error/httpError.js'
 
 async function getTecnologies() {
     const technologies = await prisma.technology.findMany()

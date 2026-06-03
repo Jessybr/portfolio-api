@@ -1,4 +1,4 @@
-import { HttpError } from './error/HttpError.js'
+import { HttpError } from './error/httpError.js'
 
 function checkParamsNeeded(body) {
     const paramsNeeded = ['nome', 'descricao']
