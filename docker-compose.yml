@@ -1,0 +1,13 @@
+services:
+  api:
+    build: .
+    container_name: portfolio-api
+
+    ports:
+      - "3000:3000"
+
+    env_file:
+      - .env
+
+    volumes:
+      - ./database:/app/database
