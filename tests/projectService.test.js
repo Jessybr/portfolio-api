@@ -447,11 +447,6 @@ describe('Project Service', () => {
         prismaMock.project.findMany.mockResolvedValue(projects)
 
         const result = await projectService.getProjects()
-        
-        console.log('O que deveria ser mostrado:')
-        console.log(projects)
-        console.log('Resultados do teste:')
-        console.log(result)
 
         expect(prismaMock.project.findMany).toHaveBeenCalled()
         expect(result).toEqual(projects)
