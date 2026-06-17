@@ -4,7 +4,8 @@
   "description": "API Rest desenvolvida em Node.js e SQLite para gerenciamento de projetos, habilidades e informações do meu Portfolio",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js --passWithNoTests",
+    "start": "node server.js"
   },
   "repository": {
     "type": "git",
@@ -29,6 +30,8 @@
     "swagger-ui-express": "^5.0.1"
   },
   "devDependencies": {
-    "prisma": "^7.8.0"
+    "jest": "^30.4.2",
+    "prisma": "^7.8.0",
+    "supertest": "^7.2.2"
   }
 }
