@@ -6,7 +6,7 @@ import technologyRoutes from './routes/technology.routes.js'
 import categoryRoutes from './routes/category.routes.js'
 import softSkillRoutes from './routes/softSkill.routes.js'
 import swaggerUi from 'swagger-ui-express'
-import swaggerSpec from './docs/swagger.js'
+import swaggerSpec from '../docs/swagger.js'
 
 
 const app = express()
