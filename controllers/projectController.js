@@ -85,7 +85,6 @@ async function addTechnologyToProject(req, res) {
 
         return responseHTTP.ok(res, "Tecnologia adicionada ao projeto com sucesso!", result)
     } catch (error) {
-        console.log(error)
         return responseHTTP.internalError(res, error.message, error.statusCode)
     }
 }
@@ -98,7 +97,6 @@ async function removeTechnologyFromProject(req, res) {
 
         return responseHTTP.ok(res, "Tecnologia removida do projeto com sucesso!", result)
     } catch (error) {
-        console.log(error)
         return responseHTTP.internalError(res, error.message, error.statusCode)
     }
 }
@@ -111,7 +109,6 @@ async function addCategoryToProject(req, res) {
 
         return responseHTTP.ok(res, "Categoria adicionada ao projeto com sucesso!", result)
     } catch (error) {
-        console.log(error)
         return responseHTTP.internalError(res, error.message, error.statusCode)
     }
 }
@@ -124,7 +121,6 @@ async function removeCategoryFromProject(req, res) {
 
         return responseHTTP.ok(res, "Categoria removida do projeto com sucesso!", result)
     } catch (error) {
-        console.log(error)
         return responseHTTP.internalError(res, error.message, error.statusCode)
     }
 }
