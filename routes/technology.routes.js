@@ -6,42 +6,6 @@ const router = express.Router()
 
 /**
  * @openapi
- * tags:
- *   - name: Technology
- *     description: Technology related endpoints
- *
- * components:
- *   schemas:
- *     Technology:
- *       type: object
- *       properties:
- *         id:
- *           type: string
- *           example: "60f5a3c2b1d4f12a34567890"
- *         name:
- *           type: string
- *           example: "React"
- *         description:
- *           type: string
- *           example: "A JavaScript library for building user interfaces"
- *         createdAt:
- *           type: string
- *           format: date-time
- *     NewTechnology:
- *       type: object
- *       required:
- *         - name
- *       properties:
- *         name:
- *           type: string
- *           example: "Node.js"
- *         description:
- *           type: string
- *           example: "JavaScript runtime built on Chrome's V8 engine"
- */
-
-/**
- * @openapi
  * /technology:
  *   get:
  *     tags:
