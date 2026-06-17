@@ -1,4 +1,4 @@
-import prisma from "../lib/prisma.js"
+﻿import prisma from "../lib/prisma.js"
 import checkersParams from "../utils/paramsProjectHelper.js"
 import { HttpError } from "../utils/error/httpError.js"
 import technologyService from "./technologyService.js"
@@ -111,7 +111,7 @@ async function getProjects(id) {
         throw new HttpError(`Não há projetos no banco de dados`, 404)
     }
 
-    return { projects }
+    return projects
 }
 
 async function deleteProjectById(id) {
@@ -161,7 +161,7 @@ async function addTechnologyToProject(projectId, tecnologiaId) {
     await checkProjectExistsById(projectId)
     await technologyService.ensureTechnologiesExist([tecnologiaId])
 
-    const technologyExistsInProject = await checkTechnologyExistsInProject(projectId, tecnologiaId)
+    const technologyExistsInProject = await technologyExistsInProjectById(projectId, tecnologiaId)
 
     if (technologyExistsInProject) {
         throw new HttpError("Tecnologia já existe no projeto", 400)
@@ -197,7 +197,12 @@ async function addTechnologyToProject(projectId, tecnologiaId) {
 
 async function removeTechnologyFromProject(projectId, tecnologiaId) {
     await checkProjectExistsById(projectId)
-    await checkTechnologyExistsInProject(projectId, tecnologiaId)
+
+    const technologyExistsInProject = await technologyExistsInProjectById(projectId, tecnologiaId)
+
+    if (!technologyExistsInProject) {
+        throw new HttpError("Tecnologia não encontrada no projeto", 404)
+    }
 
     const result = await prisma.project.update({
         where: { id: projectId },
@@ -268,7 +273,11 @@ async function addCategoryToProject(projectId, categoriaId) {
 
 async function removeCategoryFromProject(projectId, categoriaId) {
     await checkProjectExistsById(projectId)
-    await checkCategoryExistsInProject(projectId, categoriaId)
+    const categoryExistsInProject = await checkCategoryExistsInProject(projectId, categoriaId)
+
+    if (!categoryExistsInProject) {
+        throw new HttpError("Categoria não encontrada no projeto", 404)
+    }
 
     const result = await prisma.project.update({
         where: { id: projectId },
@@ -299,7 +308,7 @@ async function removeCategoryFromProject(projectId, categoriaId) {
     return { result }
 }
 
-async function checkTechnologyExistsInProject(projectId, tecnologiaId) {
+async function technologyExistsInProjectById(projectId, tecnologiaId) {
     const projectTechnology = await prisma.technology_Project.findUnique({
         where: {
             tecnologia_id_projeto_id: {
@@ -309,11 +318,7 @@ async function checkTechnologyExistsInProject(projectId, tecnologiaId) {
         }
     })
 
-    if (!projectTechnology) {
-        throw new HttpError("Tecnologia não encontrada no projeto", 404)
-    }
-
-    return true
+    return Boolean(projectTechnology)
 }
 
 async function checkCategoryExistsInProject(projectId, categoriaId) {
@@ -326,11 +331,7 @@ async function checkCategoryExistsInProject(projectId, categoriaId) {
         }
     })
 
-    if (!projectCategory) {
-        throw new HttpError("Categoria não encontrada no projeto", 404)
-    }
-
-    return true
+    return Boolean(projectCategory)
 }
 
 export default { createProject, updateProjectById, getProjectById, getProjects, deleteProjectById, toggleActiveProject, getActiveProjects, addTechnologyToProject, removeTechnologyFromProject, addCategoryToProject, removeCategoryFromProject }
