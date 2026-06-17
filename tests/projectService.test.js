@@ -1,5 +1,5 @@
 import { expect, jest } from '@jest/globals'
-import { HttpError } from '../utils/error/httpError.js'
+import { HttpError } from '../src/utils/error/httpError.js'
 import { response } from 'express'
 
 const prismaMock = {
@@ -32,7 +32,7 @@ jest.unstable_mockModule('@prisma/adapter-better-sqlite3', () => ({
     PrismaBetterSqlite3: jest.fn()
 }))
 
-const projectService = (await import('../services/projectService.js')).default
+const projectService = (await import('../src/services/projectService.js')).default
 
 describe('Project Service', () => {
     beforeEach(() => {
