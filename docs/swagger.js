@@ -12,6 +12,10 @@ const options = {
             {
                 url: 'http://localhost:3000',
                 description: 'Servidor local'
+            },
+            {
+                url:"https://sua-api.onrender.com",
+                description:"Servidor produção"
             }
         ],
         components: {
