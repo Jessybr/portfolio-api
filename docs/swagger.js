@@ -10,12 +10,8 @@ const options = {
         },
         servers: [
             {
-                url: 'http://localhost:3000',
-                description: 'Servidor local'
-            },
-            {
-                url:"https://portfolio-api-latest-ydsx.onrender.com/",
-                description:"Servidor produção"
+                url:"https://portfolio-api-latest-ydsx.onrender.com",
+                description:"Render"
             }
         ],
         components: {
