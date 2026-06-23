@@ -43,7 +43,7 @@ const router = express.Router()
  *       '401':
  *         description: Unauthorized
  */
-router.get('/category', authMiddleware, categoryController.getCategories)
+router.get('/category', categoryController.getCategories)
 router.post('/category', authMiddleware, categoryController.createCategory)
 
 /**
@@ -88,7 +88,7 @@ router.post('/category', authMiddleware, categoryController.createCategory)
  *       '404':
  *         description: Category not found
  */
-router.get('/category/:id', authMiddleware, categoryController.getCategoryById)
+router.get('/category/:id', categoryController.getCategoryById)
 router.delete('/category/:id', authMiddleware, categoryController.deleteCategory)
 
 export default router

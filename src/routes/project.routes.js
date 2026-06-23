@@ -59,7 +59,7 @@ const router = express.Router()
  *       500:
  *         description: Internal server error
  */
-router.get('/project', authMiddleware, projectController.getProjects)
+router.get('/project', projectController.getProjects)
 router.post('/project', authMiddleware, projectController.createProject)
 
 /**
@@ -79,7 +79,7 @@ router.post('/project', authMiddleware, projectController.createProject)
  *       500:
  *         description: Internal server error
  */
-router.get('/project/active', authMiddleware, projectController.getActiveProjects)
+router.get('/project/active', projectController.getActiveProjects)
 
 /**
  * @openapi
@@ -192,7 +192,7 @@ router.patch('/project/active/:id', authMiddleware, projectController.toggleActi
  *       500:
  *         description: Internal server error
  */
-router.get('/project/:id', authMiddleware, projectController.getProjectById)
+router.get('/project/:id', projectController.getProjectById)
 router.patch('/project/:id', authMiddleware, projectController.updateProjectById)
 router.delete('/project/:id', authMiddleware, projectController.deleteProjectById)
 

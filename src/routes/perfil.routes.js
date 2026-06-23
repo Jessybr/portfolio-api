@@ -50,7 +50,7 @@ const router = express.Router()
  *       500:
  *         description: Server error
  */
-router.get('/perfil', authMiddleware, perfilController.getPerfil)
+router.get('/perfil', perfilController.getPerfil)
 router.patch('/perfil', authMiddleware, perfilController.updatePerfil)
 
 export default router

@@ -57,7 +57,7 @@ router.post('/softSkill', authMiddleware, softSkillController.createSoftSkill)
  *       401:
  *         description: Unauthorized
  */
-router.get('/softSkills', authMiddleware, softSkillController.getSoftSkills)
+router.get('/softSkills', softSkillController.getSoftSkills)
 
 /**
  * @openapi
@@ -105,7 +105,7 @@ router.get('/softSkills', authMiddleware, softSkillController.getSoftSkills)
  *       404:
  *         description: Soft skill not found
  */
-router.get('/softSkill/:id', authMiddleware, softSkillController.getSoftSkillById)
+router.get('/softSkill/:id', softSkillController.getSoftSkillById)
 router.delete('/softSkill/:id', authMiddleware, softSkillController.deleteSoftSkill)
 
 export default router

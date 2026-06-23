@@ -23,7 +23,7 @@ const router = express.Router()
  *               items:
  *                 $ref: '#/components/schemas/Technology'
  */
-router.get('/technology', authMiddleware, technologyController.getTecnologies)
+router.get('/technology', technologyController.getTecnologies)
 
 /**
  * @openapi
@@ -50,7 +50,7 @@ router.get('/technology', authMiddleware, technologyController.getTecnologies)
  *               items:
  *                 $ref: '#/components/schemas/Technology'
  */
-router.get('/technology/search', authMiddleware, technologyController.getTechnologyByName)
+router.get('/technology/search', technologyController.getTechnologyByName)
 
 /**
  * @openapi
@@ -102,7 +102,7 @@ router.post('/technology', authMiddleware, technologyController.createTechnology
  *       404:
  *         description: Technology not found
  */
-router.get('/technology/:id', authMiddleware, technologyController.getTecnologyById)
+router.get('/technology/:id', technologyController.getTecnologyById)
 
 /**
  * @openapi
