@@ -3,6 +3,7 @@ import checkersParams from "../utils/paramsProjectHelper.js"
 import { HttpError } from "../utils/error/httpError.js"
 import technologyService from "./technologyService.js"
 import categoryService from "./categoryService.js"
+import uploadService from "./uploadService.js"
 
 async function createProject(data) {
     const {
@@ -17,9 +18,20 @@ async function createProject(data) {
     await technologyService.ensureTechnologiesExist(tecnologias)
     await categoryService.ensureCategoriesExist(categorias)
 
+    if(projectData.imagem) {
+        const image = await uploadService.uploadFile(projectData.imagem)
+    }
+    if(projectData.video) {
+        const video = await uploadService.uploadFile(projectData.video)
+    }
+
     const newProject = await prisma.project.create({
         data: {
             ...projectData,
+            imagemSrc: image.url,
+            imagemPublicId: image.publicId,
+            videoSrc: video.url,
+            videoPublicId: video.publicId,
 
             tecnologias: {
                 create: tecnologias.map((tecnologiaId) => ({
@@ -59,9 +71,25 @@ async function updateProjectById(id, data) {
 
     await checkProjectExistsById(id)
 
+    let image, video
+    if(projectData.imagem) {
+        image = await uploadService.uploadFile(projectData.imagem)
+        await uploadService.deleteFile(projectData.imagemPublicId, 'image')
+    }
+    if(projectData.video) {
+        video = await uploadService.uploadFile(projectData.video)
+        await uploadService.deleteFile(projectData.videoPublicId, 'video')
+    }
+
     const updatedProject = await prisma.project.update({
         where: { id },
-        data
+        data: {
+            ...data,
+            imagemSrc: image?.url || data.imagemSrc,
+            imagemPublicId: image?.publicId || data.imagemPublicId,
+            videoSrc: video?.url || data.videoSrc,
+            videoPublicId: video?.publicId || data.videoPublicId
+        }
     })
 
     return { updatedProject }
