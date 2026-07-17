@@ -1,6 +1,7 @@
 import express from 'express'
 import projectController from '../controllers/projectController.js'
 import { authMiddleware } from '../middlewares/authMiddlewares.js'
+import upload from '../middlewares/uploadMiddleware.js'
 
 const router = express.Router()
 
@@ -60,7 +61,15 @@ const router = express.Router()
  *         description: Internal server error
  */
 router.get('/project', projectController.getProjects)
-router.post('/project', authMiddleware, projectController.createProject)
+router.post(
+    '/project',
+    authMiddleware,
+    upload.fields([
+        { name: 'imagem', maxCount: 1 },
+        { name: 'video', maxCount: 1 }
+    ]),
+    projectController.createProject
+)
 
 /**
  * @openapi
@@ -193,7 +202,12 @@ router.patch('/project/active/:id', authMiddleware, projectController.toggleActi
  *         description: Internal server error
  */
 router.get('/project/:id', projectController.getProjectById)
-router.patch('/project/:id', authMiddleware, projectController.updateProjectById)
+router.patch('/project/:id', authMiddleware,
+    upload.fields([
+        { name: 'imagem', maxCount: 1 },
+        { name: 'video', maxCount: 1 }
+    ]),
+    projectController.updateProjectById)
 router.delete('/project/:id', authMiddleware, projectController.deleteProjectById)
 
 /**
