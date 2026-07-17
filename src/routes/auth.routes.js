@@ -5,7 +5,7 @@ const router = express.Router()
 
 /**
  * @openapi
- * /auth/login:
+ * /login:
  *   post:
  *     summary: User login
  *     tags:
@@ -33,10 +33,17 @@ const router = express.Router()
  *             schema:
  *               type: object
  *               properties:
- *                 token:
+ *                 status:
+ *                   type: number
+ *                 success:
+ *                   type: boolean
+ *                 message:
  *                   type: string
- *                 user:
+ *                 data:
  *                   type: object
+ *                   properties:
+ *                     token: 
+ *                       type: string
  *       400:
  *         description: Bad request (validation error)
  *       401:
