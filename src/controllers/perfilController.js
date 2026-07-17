@@ -1,12 +1,14 @@
+import { response } from 'express'
 import perfilService from '../services/perfilService.js'
+import responseHTTP from '../utils/response/httpResponse.js'
 
 async function getPerfil(req, res) {
     try {
         const result = await perfilService.getPerfil()
 
-        return res.json(result)
-    } catch {
-        return res.status(401).json({error: error.message})
+        return responseHTTP.ok(res, null, result)
+    } catch (error) {
+        return responseHTTP.error(res, error.message, error.statusCode)
     }
 }
 
@@ -15,9 +17,9 @@ async function updatePerfil(req, res) {
         const data = req.body
         const result = await perfilService.updatePerfil(data)
 
-        return res.json(result)
-    } catch {
-        return res.status(401).json({error: error.message})
+        return responseHTTP.ok(res, "Perfil atualizado com sucesso!", result)
+    } catch (error) {
+        return responseHTTP.error(res, error.message, error.statusCode)
     }
 }
 
