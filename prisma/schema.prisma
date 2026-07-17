@@ -19,24 +19,28 @@ model User {
 
 model Perfil {
     id           Int    @id @default(autoincrement())
-    nomeCompleto String? 
-    email        String 
-    celular      String 
-    linkedinUrl  String?
-    githubUrl    String?
-    curriculoSrc String?
-    fotoSrc      String?
+    nomeCompleto      String? 
+    email             String 
+    celular           String 
+    linkedinUrl       String?
+    githubUrl         String?
+    curriculoSrc      String?
+    curriculoPublicId String?
+    fotoSrc           String?
+    fotoPublicId      String?
 }
 
 model Project {
-    id          Int     @id @default(autoincrement())
-    nome        String
-    descricao   String
-    ativo       Boolean @default(true)
-    videoSrc    String? 
-    imagemSrc   String? 
-    deployUrl   String? 
-    githubUrl   String? 
+    id             Int     @id @default(autoincrement())
+    nome           String
+    descricao      String
+    ativo          Boolean @default(true)
+    videoSrc       String? 
+    videoPublicId  String?
+    imagemSrc      String? 
+    imagemPublicId String?
+    deployUrl      String? 
+    githubUrl      String? 
 
     tecnologias Technology_Project[]
     categorias  Category_Project[]
