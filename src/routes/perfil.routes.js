@@ -1,6 +1,7 @@
 import express from 'express'
 import perfilController from '../controllers/perfilController.js'
 import { authMiddleware } from '../middlewares/authMiddlewares.js'
+import upload from '../middlewares/uploadMiddleware.js'
 
 const router = express.Router()
 
@@ -51,6 +52,11 @@ const router = express.Router()
  *         description: Server error
  */
 router.get('/perfil', perfilController.getPerfil)
-router.patch('/perfil', authMiddleware, perfilController.updatePerfil)
+router.patch('/perfil', authMiddleware,
+    upload.fields([
+        { name: 'imagem', maxCount: 1 },
+        { name: 'pdf', maxCount: 1 }
+    ]), 
+    perfilController.updatePerfil)
 
 export default router
