@@ -1,7 +1,7 @@
 import { HttpError } from './error/httpError.js'
 
 function checkBodyNeededToCreateTechnology(body) {
-    const paramsNeeded = ['nome', 'iconeSrc']
+    const paramsNeeded = ['nome']
 
     for (const param of paramsNeeded) {
         if (!body[param]) {
@@ -11,7 +11,7 @@ function checkBodyNeededToCreateTechnology(body) {
 }
 
 function checkBodyInexistent(body) {
-    const paramsAll = ['nome', 'iconeSrc']
+    const paramsAll = ['nome']
 
     for (const param in body) {
         if (!paramsAll.includes(param)) {
