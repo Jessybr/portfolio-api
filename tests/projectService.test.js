@@ -6,6 +6,7 @@ const prismaMock = {
     project: {
         create: jest.fn(),
         update: jest.fn(),
+        findFirst: jest.fn(),
         findUnique: jest.fn(),
         delete: jest.fn(),
         findMany: jest.fn()
