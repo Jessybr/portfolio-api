@@ -4,13 +4,13 @@ import { PrismaBetterSqlite3 } from '@prisma/adapter-better-sqlite3'
 import bcrypt from 'bcrypt'
 
 const adapter = new PrismaBetterSqlite3({
-   url: process.env.DATABASE_URL ?? 'file:./database/dev.db'
+    url: process.env.DATABASE_URL ?? 'file:./database/dev.db'
 })
 
 const prisma = new PrismaClient({ adapter })
 
-const user = process.env.MEU_USUARIO
-const senha = process.env.SENHA_CRIPTOGRAFADA
+const username = process.env.MEU_USUARIO
+const senha = process.env.SENHA
 
 async function main() {
     await createUser()
@@ -18,14 +18,16 @@ async function main() {
 }
 
 async function createUser() {
-    if(!user || !senha) {
-        throw new Error("Variáveis de ambiente MEU_USUARIO e SENHA_CRIPTOGRAFADA precisam ser definidas no .env")
+    if (!username || !senha) {
+        throw new Error(
+            "Variáveis de ambiente MEU_USUARIO e SENHA precisam ser definidas no .env"
+        )
     }
 
     const existingUser = await prisma.user.findUnique({
-    where: {
-        username: user
-    }
+        where: {
+            username: username
+        }
     })
 
     if (existingUser) {
@@ -33,19 +35,21 @@ async function createUser() {
         return
     }
 
-   // criptografar senha
+    // criptografar senha
     const hashedPassword = await bcrypt.hash(
-      senha,
-      10
-   )
+        senha,
+        10
+    )
 
-   // criar usuário
-    const user = await prisma.user.create({
+    // criar usuário
+    const createdUser = await prisma.user.create({
         data: {
-            username: user,
+            username: username,
             password: hashedPassword
         }
     })
+
+    console.log('Usuário criado com sucesso')
 }
 
 async function createPerfil() {
@@ -55,8 +59,8 @@ async function createPerfil() {
         }
     })
 
-    if(existingPerfil) {
-        console.log('O perfil já foi criado, basta edita-lo agora')
+    if (existingPerfil) {
+        console.log('O perfil já foi criado, basta editá-lo agora')
         return
     }
 
@@ -71,12 +75,15 @@ async function createPerfil() {
             foto_src: "https://link-para-sua-foto.com/foto.jpg"
         }
     })
+
+    console.log('Perfil criado com sucesso')
 }
 
 main()
-   .catch((error) => {
-      console.error(error)
-   })
-   .finally(async () => {
-      await prisma.$disconnect()
-   })
+    .catch((error) => {
+        console.error(error)
+        process.exit(1)
+    })
+    .finally(async () => {
+        await prisma.$disconnect()
+    })
