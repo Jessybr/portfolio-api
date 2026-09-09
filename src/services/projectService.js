@@ -47,20 +47,39 @@ async function createProject(data) {
     const {
         tecnologias = [],
         categorias = [],
+        imagem,
+        video,
         ...projectData
     } = data
 
     checkersParams.checkParamsNeeded(projectData)
     checkersParams.checkParamsInexist(projectData)
 
-    await technologyService.ensureTechnologiesExist(tecnologias)
-    await categoryService.ensureCategoriesExist(categorias)
+    const technologyIds = parseRelationIds(tecnologias)
+    const categoryIds = parseRelationIds(categorias)
+    const normalizedProjectData = normalizeProjectData(projectData)
 
-    if(projectData.imagem) {
-        const image = await uploadService.uploadFile(projectData.imagem)
+    await technologyService.ensureTechnologiesExist(technologyIds)
+    await categoryService.ensureCategoriesExist(categoryIds)
+
+    let uploadedImage, uploadedVideo
+    if(imagem) {
+        uploadedImage = await uploadService.uploadFile(imagem)
+        console.log("Imagem enviada com sucesso:", uploadedImage)
     }
-    if(projectData.video) {
-        const video = await uploadService.uploadFile(projectData.video)
+    if(video) {
+        uploadedVideo = await uploadService.uploadFile(video)
+        console.log("Vídeo enviado com sucesso:", uploadedVideo)
+    }
+
+    const projectExist = await prisma.project.findFirst({
+        where: {
+            nome: normalizedProjectData.nome
+        }
+    })
+
+    if(projectExist) {
+        throw new HttpError(`Projeto com o nome: ${normalizedProjectData.nome} já existe`, 400)
     }
 
     const newProject = await prisma.project.create({
