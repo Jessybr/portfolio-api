@@ -59,7 +59,7 @@ async function createProject(req, res) {
 async function updateProjectById(req, res) {
     try {
         const id = req.params.id
-        const data = req.body
+        const data = getProjectDataFromRequest(req)
         const result = await projectService.updateProjectById(parseInt(id), data)
 
         return responseHTTP.ok(res, "Projeto atualizado com sucesso!", result)
