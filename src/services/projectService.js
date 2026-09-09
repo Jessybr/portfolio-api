@@ -65,11 +65,9 @@ async function createProject(data) {
     let uploadedImage, uploadedVideo
     if(imagem) {
         uploadedImage = await uploadService.uploadFile(imagem)
-        console.log("Imagem enviada com sucesso:", uploadedImage)
     }
     if(video) {
         uploadedVideo = await uploadService.uploadFile(video)
-        console.log("Vídeo enviado com sucesso:", uploadedVideo)
     }
 
     const projectExist = await prisma.project.findFirst({
@@ -126,26 +124,66 @@ async function createProject(data) {
 async function updateProjectById(id, data) {
     checkersParams.checkParamsInexist(data)
 
-    await checkProjectExistsById(id)
+    const currentProject = await checkProjectExistsById(id)
 
-    let image, video
-    if(projectData.imagem) {
-        image = await uploadService.uploadFile(projectData.imagem)
-        await uploadService.deleteFile(projectData.imagemPublicId, 'image')
+    const {
+        tecnologias,
+        categorias,
+        imagem,
+        video,
+        ...projectData
+    } = data
+
+    const technologyIds = tecnologias !== undefined ? parseRelationIds(tecnologias) : undefined
+    const categoryIds = categorias !== undefined ? parseRelationIds(categorias) : undefined
+    const normalizedProjectData = normalizeProjectData(projectData)
+
+    if (technologyIds !== undefined) {
+        await technologyService.ensureTechnologiesExist(technologyIds)
     }
-    if(projectData.video) {
-        video = await uploadService.uploadFile(projectData.video)
-        await uploadService.deleteFile(projectData.videoPublicId, 'video')
+
+    if (categoryIds !== undefined) {
+        await categoryService.ensureCategoriesExist(categoryIds)
+    }
+
+    let uploadedImage, uploadedVideo
+    if(imagem) {
+        uploadedImage = await uploadService.uploadFile(imagem)
+        await uploadService.deleteFile(currentProject.imagemPublicId, 'image')
+    }
+    if(video) {
+        uploadedVideo = await uploadService.uploadFile(video)
+        await uploadService.deleteFile(currentProject.videoPublicId, 'video')
     }
 
     const updatedProject = await prisma.project.update({
         where: { id },
         data: {
-            ...data,
-            imagemSrc: image?.url || data.imagemSrc,
-            imagemPublicId: image?.publicId || data.imagemPublicId,
-            videoSrc: video?.url || data.videoSrc,
-            videoPublicId: video?.publicId || data.videoPublicId
+            ...normalizedProjectData,
+            imagemSrc: uploadedImage?.url || normalizedProjectData.imagemSrc,
+            imagemPublicId: uploadedImage?.publicId || normalizedProjectData.imagemPublicId,
+            videoSrc: uploadedVideo?.url || normalizedProjectData.videoSrc,
+            videoPublicId: uploadedVideo?.publicId || normalizedProjectData.videoPublicId,
+            ...(technologyIds !== undefined && {
+                tecnologias: {
+                    deleteMany: {},
+                    create: technologyIds.map((tecnologiaId) => ({
+                        tecnologia: {
+                            connect: { id: tecnologiaId }
+                        }
+                    }))
+                }
+            }),
+            ...(categoryIds !== undefined && {
+                categorias: {
+                    deleteMany: {},
+                    create: categoryIds.map((categoriaId) => ({
+                        categoria: {
+                            connect: { id: categoriaId }
+                        }
+                    }))
+                }
+            })
         }
     })
 
