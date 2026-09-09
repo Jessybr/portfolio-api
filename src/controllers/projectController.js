@@ -47,7 +47,7 @@ function getProjectDataFromRequest(req) {
 
 async function createProject(req, res) {
     try {
-        const data = req.body
+        const data = getProjectDataFromRequest(req)
         const result = await projectService.createProject(data)
 
         return responseHTTP.created(res, "Projeto criado com sucesso!", result)
