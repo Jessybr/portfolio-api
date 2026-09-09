@@ -46,11 +46,9 @@ async function createTechnology(data) {
 async function deleteTechnology(id) {
     await checkTechnologyExistsById(id)
 
-    const result = await prisma.technology.delete({
-        where: { id }
+    await prisma.technology.delete({
+        where: { id: id }
     })
-
-    return { result }
 }
 
 async function ensureTechnologiesExist(ids) {
