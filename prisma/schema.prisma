@@ -18,7 +18,7 @@ model User {
 }
 
 model Perfil {
-    id           Int    @id @default(autoincrement())
+    id                Int    @id @default(autoincrement())
     nomeCompleto      String? 
     email             String 
     celular           String 
@@ -28,6 +28,8 @@ model Perfil {
     curriculoPublicId String?
     fotoSrc           String?
     fotoPublicId      String?
+    sobreMim          String?
+    breveDescricao    String?
 }
 
 model Project {
@@ -48,8 +50,7 @@ model Project {
 
 model Technology {
     id       Int    @id @default(autoincrement())
-    nome     String 
-    iconeSrc String 
+    nome     String
 
     projetos Technology_Project[]
 }
@@ -65,8 +66,8 @@ model Technology_Project {
     tecnologia_id Int
     projeto_id    Int
 
-    tecnologia    Technology @relation(fields: [tecnologia_id], references: [id])
-    projeto       Project    @relation(fields: [projeto_id], references: [id])
+    tecnologia    Technology @relation(fields: [tecnologia_id], references: [id], onDelete: Cascade)
+    projeto       Project    @relation(fields: [projeto_id], references: [id], onDelete: Cascade)
 
     @@id([tecnologia_id, projeto_id])
 }
@@ -75,8 +76,8 @@ model Category_Project {
     categoria_id Int
     projeto_id   Int
 
-    categoria    Category @relation(fields: [categoria_id], references: [id])
-    projeto      Project  @relation(fields: [projeto_id], references: [id])
+    categoria    Category @relation(fields: [categoria_id], references: [id], onDelete: Cascade)
+    projeto      Project  @relation(fields: [projeto_id], references: [id], onDelete: Cascade)
 
     @@id([categoria_id, projeto_id])
 }
@@ -84,5 +85,4 @@ model Category_Project {
 model SoftSkill {
     id       Int    @id @default(autoincrement())
     nome     String
-    iconeSrc String?
 }
