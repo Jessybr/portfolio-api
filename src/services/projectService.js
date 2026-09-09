@@ -33,6 +33,16 @@ function parseRelationIds(value) {
     return ids
 }
 
+function normalizeProjectData(data) {
+    const normalizedData = { ...data }
+
+    if (normalizedData.ativo !== undefined) {
+        normalizedData.ativo = normalizedData.ativo === true || normalizedData.ativo === 'true'
+    }
+
+    return normalizedData
+}
+
 async function createProject(data) {
     const {
         tecnologias = [],
