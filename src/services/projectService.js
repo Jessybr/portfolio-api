@@ -313,6 +313,8 @@ async function checkProjectExistsById(id) {
     if(!project) {
         throw new HttpError(`Projeto com o id: ${id} não encontrado`, 404)
     }
+
+    return project
 }
 
 async function addTechnologyToProject(projectId, tecnologiaId) {
@@ -492,4 +494,4 @@ async function checkCategoryExistsInProject(projectId, categoriaId) {
     return Boolean(projectCategory)
 }
 
-export default { createProject, updateProjectById, getProjectById, getProjects, deleteProjectById, toggleActiveProject, getActiveProjects, addTechnologyToProject, removeTechnologyFromProject, addCategoryToProject, removeCategoryFromProject }
+export default { createProject, updateProjectById, getProjectById, getProjects, deleteProjectById, toggleActiveProject, getActiveProjects, getProjectByName, addTechnologyToProject, removeTechnologyFromProject, addCategoryToProject, removeCategoryFromProject }
