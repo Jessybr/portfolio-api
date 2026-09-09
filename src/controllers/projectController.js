@@ -1,5 +1,32 @@
 import projectService from '../services/projectService.js'
 import responseHTTP from '../utils/response/httpResponse.js'
+import { HttpError } from '../utils/error/httpError.js'
+
+function parseJsonArrayField(value, fieldName) {
+    if (value === undefined) {
+        return undefined
+    }
+
+    if (Array.isArray(value)) {
+        return value
+    }
+
+    if (typeof value !== 'string') {
+        return value
+    }
+
+    try {
+        const parsed = JSON.parse(value)
+
+        if (!Array.isArray(parsed)) {
+            throw new Error()
+        }
+
+        return parsed
+    } catch {
+        throw new HttpError(`O campo ${fieldName} precisa ser um JSON válido`, 422)
+    }
+}
 
 async function createProject(req, res) {
     try {
