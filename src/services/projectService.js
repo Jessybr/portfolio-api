@@ -248,16 +248,16 @@ async function deleteProjectById(id) {
 }
 
 async function toggleActiveProject(id) {
-    await checkProjectExistsById(id)
+    const projectExist = await checkProjectExistsById(id)
 
-    const result = await prisma.project.update({
+    const project = await prisma.project.update({
         where: { id },
         data: {
             ativo: !projectExist.ativo
         }
     })
 
-    return { result }
+    return { project }
 }
 
 async function getActiveProjects() {
