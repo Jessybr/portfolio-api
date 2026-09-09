@@ -28,6 +28,23 @@ function parseJsonArrayField(value, fieldName) {
     }
 }
 
+function getProjectDataFromRequest(req) {
+    const data = { ...req.body }
+
+    data.tecnologias = parseJsonArrayField(data.tecnologias, 'tecnologias')
+    data.categorias = parseJsonArrayField(data.categorias, 'categorias')
+
+    if (req.files?.imagem?.[0]) {
+        data.imagem = req.files.imagem[0]
+    }
+
+    if (req.files?.video?.[0]) {
+        data.video = req.files.video[0]
+    }
+
+    return data
+}
+
 async function createProject(req, res) {
     try {
         const data = req.body
