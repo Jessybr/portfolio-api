@@ -84,14 +84,14 @@ async function createProject(data) {
 
     const newProject = await prisma.project.create({
         data: {
-            ...projectData,
-            imagemSrc: image.url,
-            imagemPublicId: image.publicId,
-            videoSrc: video.url,
-            videoPublicId: video.publicId,
+            ...normalizedProjectData,
+            imagemSrc: uploadedImage?.url || normalizedProjectData.imagemSrc || null,
+            imagemPublicId: uploadedImage?.publicId || normalizedProjectData.imagemPublicId,
+            videoSrc: uploadedVideo?.url || normalizedProjectData.videoSrc || null,
+            videoPublicId: uploadedVideo?.publicId || normalizedProjectData.videoPublicId,
 
             tecnologias: {
-                create: tecnologias.map((tecnologiaId) => ({
+                create: technologyIds.map((tecnologiaId) => ({
                     tecnologia: {
                         connect: { id: tecnologiaId }
                     }
@@ -99,7 +99,7 @@ async function createProject(data) {
             },
 
             categorias: {
-                create: categorias.map((categoriaId) => ({
+                create: categoryIds.map((categoriaId) => ({
                     categoria: {
                         connect: { id: categoriaId }
                     }
