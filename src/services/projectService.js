@@ -5,6 +5,34 @@ import technologyService from "./technologyService.js"
 import categoryService from "./categoryService.js"
 import uploadService from "./uploadService.js"
 
+function parseRelationIds(value) {
+    if (!value) {
+        return []
+    }
+
+    let parsedValue = value
+
+    if (typeof value === 'string') {
+        try {
+            parsedValue = JSON.parse(value)
+        } catch {
+            parsedValue = [value]
+        }
+    }
+
+    if (!Array.isArray(parsedValue)) {
+        parsedValue = [parsedValue]
+    }
+
+    const ids = parsedValue.map(Number)
+
+    if (ids.some((id) => Number.isNaN(id))) {
+        throw new HttpError("As relações do projeto precisam conter apenas IDs numéricos", 422)
+    }
+
+    return ids
+}
+
 async function createProject(data) {
     const {
         tecnologias = [],
