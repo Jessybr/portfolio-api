@@ -264,6 +264,18 @@ async function getActiveProjects() {
     const projects = await prisma.project.findMany({
         where: {
             ativo: true
+        },
+        include: {
+            tecnologias: {
+                include: {
+                    tecnologia: true
+                }
+            },
+            categorias: {
+                include: {
+                    categoria: true
+                }
+            }
         }
     })
 
