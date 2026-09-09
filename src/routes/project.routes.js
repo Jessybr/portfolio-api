@@ -119,6 +119,33 @@ router.patch('/project/active/:id', authMiddleware, projectController.toggleActi
 
 /**
  * @openapi
+ * /project/{name}:
+ *   get:
+ *     summary: Get project by name
+ *     tags:
+ *       - Projects
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: name
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Project returned successfully
+ *       404:
+ *         description: Project not found
+ *       401:
+ *         description: Not authorized
+ *       500:
+ *         description: Internal server error
+ */
+router.get('/project/:name', projectController.getProjectByName)
+
+/**
+ * @openapi
  * /project/{id}:
  *   get:
  *     summary: Get a project by ID
