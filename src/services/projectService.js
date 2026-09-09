@@ -282,6 +282,29 @@ async function getActiveProjects() {
     return { projects }
 }
 
+async function getProjectByName(name) {
+    const project = await prisma.project.findFirst({
+        where: {
+            nome: { contains: name
+            }
+        },
+        include: {
+            tecnologias: {
+                include: {
+                    tecnologia: true
+                }
+            },
+            categorias: {
+                include: {
+                    categoria: true
+                }
+            }
+        }
+    })
+
+    return { project }
+}
+
 async function checkProjectExistsById(id) {
     const project = await prisma.project.findUnique({
         where: { id }
