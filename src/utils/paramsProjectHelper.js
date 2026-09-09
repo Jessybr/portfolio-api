@@ -11,7 +11,7 @@ function checkParamsNeeded(body) {
 }
 
 function checkParamsInexist(body) {
-    const paramsAll = ['nome', 'descricao', 'videoSrc', 'imagemSrc', 'deployUrl', 'githubUrl', 'tecnologias', 'categorias', 'imagemPublicId', 'videoPublicId']
+    const paramsAll = ['nome', 'descricao', 'ativo', 'videoSrc', 'video', 'imagemSrc', 'imagem', 'deployUrl', 'githubUrl', 'tecnologias', 'categorias', 'imagemPublicId', 'videoPublicId']
 
     for(const param in body) {
         if(!paramsAll.includes(param)) {
