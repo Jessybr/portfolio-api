@@ -14,6 +14,8 @@ async function getPerfil() {
 }
 
 async function updatePerfil(data) {
+    const { imagem, pdf: pdfFile, ...perfilData } = data
+
     const perfil = await prisma.perfil.findUnique({
         where: { id: 1 }
     })
@@ -22,27 +24,32 @@ async function updatePerfil(data) {
         throw new Error('Perfil não encontrado')
     }
 
-    if(data.imagem) {
-        const image = await uploadService.uploadFile(data.imagem)
-        await uploadService.deleteFile(perfil.imagemPublicId, 'image')
+    let image, pdf
+    if(imagem) {
+        image = await uploadService.uploadFile(imagem)
+        if(perfil.fotoPublicId) {
+            await uploadService.deleteFile(perfil.fotoPublicId, 'image')
+        }
     }
-    if(data.pdf) {
-        const pdf = await uploadService.uploadFile(data.pdf)
-        await uploadService.deleteFile(perfil.pdfPublicId, 'raw')
+    if(pdfFile) {
+        pdf = await uploadService.uploadFile(pdfFile)
+        if(perfil.curriculoPublicId) {
+            await uploadService.deleteFile(perfil.curriculoPublicId, 'raw')
+        }
     }
 
     const perfilUpdated = await prisma.perfil.update({
         where: { id: 1 },
         data: {
-            ...data,
-            fotoSrc: data.imagem ? image.url : perfil.fotoSrc,
-            imagemPublicId: data.imagem ? image.publicId : perfil.imagemPublicId,
-            curriculoSrc: data.pdf ? pdf.url : perfil.curriculoSrc,
-            curriculoPublicId: data.pdf ? pdf.publicId : perfil.curriculoPublicId
+            ...perfilData,
+            fotoSrc: image ? image.url : perfil.fotoSrc,
+            fotoPublicId: image ? image.publicId : perfil.fotoPublicId,
+            curriculoSrc: pdf ? pdf.url : perfil.curriculoSrc,
+            curriculoPublicId: pdf ? pdf.publicId : perfil.curriculoPublicId
         }
     })
 
-    return { perfil }
+    return { perfil: perfilUpdated }
 }
 
 export default { getPerfil, updatePerfil }
