@@ -121,6 +121,17 @@ async function getActiveProjects(req, res) {
     }
 }
 
+async function getProjectByName(req, res) {
+    try {
+        const name = req.params.name
+        const result = await projectService.getProjectByName(name)
+
+        return responseHTTP.ok(res, null, result)
+    } catch (error) {
+        return responseHTTP.internalError(res, error.message, error.statusCode)
+    }
+}
+
 async function addTechnologyToProject(req, res) {
     try {
         const id = req.params.id
@@ -169,4 +180,4 @@ async function removeCategoryFromProject(req, res) {
     }
 }
 
-export default { createProject, updateProjectById, getProjectById, getProjects, deleteProjectById, toggleActiveProject, getActiveProjects, addTechnologyToProject, removeTechnologyFromProject, addCategoryToProject, removeCategoryFromProject }
+export default { createProject, updateProjectById, getProjectById, getProjects, deleteProjectById, toggleActiveProject, getActiveProjects, getProjectByName, addTechnologyToProject, removeTechnologyFromProject, addCategoryToProject, removeCategoryFromProject }
