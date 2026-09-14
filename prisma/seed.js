@@ -66,13 +66,13 @@ async function createPerfil() {
 
     await prisma.perfil.create({
         data: {
-            nome_completo: "Nome aqui",
+            nomeCompleto: "Nome aqui",
             email: "email@exemplo.com",
             celular: "11999999999",
-            linkedin_url: "https://www.linkedin.com/in/seu-perfil",
-            github_url: "https://github.com/seu-usuario",
-            curriculo_src: "https://link-para-seu-curriculo.com/curriculo.pdf",
-            foto_src: "https://link-para-sua-foto.com/foto.jpg"
+            linkedinUrl: "https://www.linkedin.com/in/seu-perfil",
+            githubUrl: "https://github.com/seu-usuario",
+            curriculoSrc: "https://link-para-seu-curriculo.com/curriculo.pdf",
+            fotoSrc: "https://link-para-sua-foto.com/foto.jpg"
         }
     })
 
